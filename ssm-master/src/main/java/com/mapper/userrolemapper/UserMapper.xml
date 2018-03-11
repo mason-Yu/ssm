@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.mapper.userrolemapper.UserMapper">
+	    <resultMap id="userInfoResultMap" type="com.model.userrole.UserInfo">
+			  <id property="userId" column="user_id" />
+			  <result property="userName" column="user_name"/>
+			  <result property="password" column="password"/>
+			  <result property="isDisabled" column="is_disabled"/>
+			  <result property="roleId" column="role_id"/>
+			  <result property="roleName" column="role_name"/>
+		</resultMap>
+	    
+	    
+		<select id="userLogin" parameterType="com.model.userrole.UserInfo" resultMap="userInfoResultMap">
+			select user_Id,user_name,password,is_disabled from userinfo where user_name=#{userName} 
+				and password=#{password} and is_disabled ='N'
+			
+		</select>
+		
+		
+		<select id="queryuserInfo" parameterType="core.utils.PageUtil"  resultType="com.model.emp.EmpInfo">
+				select  user_Id,user_Name,password,is_disabled,role.role_name  from userinfo,role 
+				<where>
+			<if test="queryObj.userName != null">
+				AND user_name = #{queryObj.userName}
+			</if>
+			
+		</where>
+		</select>
+		
+<!-- 		<update id="updateprojectsec" parameterType="com.tsinghua.esco.base.vo.VProjectInfo"> -->
+<!-- 			update project  set  kid=#{kid} where pid=#{pid} -->
+<!-- 		</update> -->
+	 
+	</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.mapper.userrolemapper.MenuMapper">
+	    
+<resultMap id="menuResultMap" type="com.model.userrole.Menu">
+  <id property="menuId" column="menu_id" />
+  <result property="menuName" column="menu_name"/>
+  <result property="menuUrl" column="menu_url"/>
+  <result property="parentMenuId" column="parent_menu_id"/>
+  <result property="updateDate" column="update_date"/>
+  <result property="parentMenuName" column="parent_menu_name"/>
+</resultMap>
+	    <!-- 通过用户id获取权限菜单 -->
+		<select id="findMenuByUser" parameterType="com.model.userrole.UserInfo" resultMap="menuResultMap">
+		select A."menu_id",A."menu_name",A."menu_url",A."parent_menu_id"
+			from MENU A
+where A."menu_id" in 
+				(select B.MENUID from MENUROLE B where B.ROLEID in ( select C.ROLE_ID from  
+					USERROLE C where C.USER_ID  =#{userId, jdbcType=INTEGER}))
+			
+		</select>
+		
+		<!-- 查询菜单列表 -->
+		<select id="findMenuList" parameterType="com.model.userrole.Menu" resultMap="menuResultMap">
+		select menu_id,
+				menu_name,
+				menu_url,
+				parent_menu_id,
+				update_date,
+				(select menu_name from menu menu_parent where menu_parent.menu_id = menu_son.parent_menu_id) as parent_menu_name 
+				from MENU menu_son where 1=1
+				<if test="menuName != null and menuName != ''">
+				    and menu_son.menu_name = #{menuName}
+				</if>
+				<if test="parentMenuName != null and parentMenuName != ''">
+				    and parent_menu_name = #{parentMenuName}
+				</if>
+		</select>
+		
+<!-- 		<update id="updateprojectsec" parameterType="com.tsinghua.esco.base.vo.VProjectInfo"> -->
+<!-- 			update project  set  kid=#{kid} where pid=#{pid} -->
+<!-- 		</update> -->
+	 
+	</mapper>

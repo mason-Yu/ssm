@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.mapper.userrolemapper.UserRoleMapper">
+		<select id="userLogin" parameterType="com.model.userrole.UserRole" resultType="com.model.userrole.UserRole">
+			select urid,user_id,role_id from userrole where user_id = #{userId}
+			
+		</select>
+		
+		
+		
+		
+<!-- 		<update id="updateprojectsec" parameterType="com.tsinghua.esco.base.vo.VProjectInfo"> -->
+<!-- 			update project  set  kid=#{kid} where pid=#{pid} -->
+<!-- 		</update> -->
+	 
+	</mapper>

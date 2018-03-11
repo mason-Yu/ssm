@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.mapper.empmapper.EmpMapper">
+		<select id="getEmpInfo" parameterType="com.model.emp.EmpInfo" resultType="com.model.emp.EmpInfo">
+			select empno,ename,job,mgr,hiredate,sal,comm,deptno from emp
+			
+		</select>
+		
+		
+		<select id="queryEmpInfoByNameAndDept" parameterType="core.utils.PageUtil"  resultType="com.model.emp.EmpInfo">
+				select empno,ename,job,mgr,hiredate,sal,comm,deptno from emp
+				<where>
+			<if test="queryObj.eName != null">
+				AND ename = #{queryObj.eName}
+			</if>
+			<if test="queryObj.deptNo != null ">
+	           AND deptNo = #{queryObj.deptNo}
+	        </if>
+		</where>
+		</select>
+		
+<!-- 		<update id="updateprojectsec" parameterType="com.tsinghua.esco.base.vo.VProjectInfo"> -->
+<!-- 			update project  set  kid=#{kid} where pid=#{pid} -->
+<!-- 		</update> -->
+	 
+	</mapper>

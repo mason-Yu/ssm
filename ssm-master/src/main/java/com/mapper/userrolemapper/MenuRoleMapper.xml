@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC 
+	"-//mybatis.org//DTD mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.mapper.userrolemapper.MenuRoleMapper">
+		<select id="get" parameterType="com.model.userrole.MenuRole" resultType="com.model.userrole.MenuRole">
+			select user_Id,user_Name,password,is_disabled from userinfo where user_name=#{userName} 
+				and password=#{password} and is_disabled ='N'
+			
+		</select>
+		
+		
+		<select id="queryuserInfo" parameterType="core.utils.PageUtil"  resultType="com.model.emp.EmpInfo">
+				select  userId,userName,password,is_disabled,role.role_name  from user_info,role 
+				<where>
+			<if test="queryObj.userName != null">
+				AND username = #{queryObj.userName}
+			</if>
+			
+		</where>
+		</select>
+		
+<!-- 		<update id="updateprojectsec" parameterType="com.tsinghua.esco.base.vo.VProjectInfo"> -->
+<!-- 			update project  set  kid=#{kid} where pid=#{pid} -->
+<!-- 		</update> -->
+	 
+	</mapper>
